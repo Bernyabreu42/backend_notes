@@ -1,0 +1,9 @@
+//creamos un nuevo registro en nuestra base de datos
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "jhonSmith", 
+    "name": "Smit",
+    "password": "j123S456"
+}
