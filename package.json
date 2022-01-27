@@ -11,14 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^14.3.2",
-    "express": "^4.17.2",
-    "mongoose": "^6.1.8"
+    "bcrypt": "^5.0.1",
+    "cors": "2.8.5",
+    "dotenv": "14.3.2",
+    "express": "4.17.2",
+    "mongoose": "6.1.8"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15",
-    "standard": "^16.0.4"
+    "nodemon": "2.0.15",
+    "standard": "16.0.4"
   },
   "eslintConfig": {
     "extends": "./node_modules/eslint-config-standard/eslintrc.json"

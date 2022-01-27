@@ -1,0 +1,34 @@
+//solicitamos todas las notas a nuestro servidor 
+GET http://localhost:3001/api/notes
+
+###
+
+//solicitamos notas individuales segun id 
+GET http://localhost:3001/api/notes/61e87b0146fe6fa8ca8ae544
+
+###
+
+//borramos notas segun id 
+DELETE http://localhost:3001/api/notes/asdasd5646546
+
+###
+
+// actualizamos una nota segun id 
+PUT http://localhost:3001/api/notes/61f2a30e0ce84a857d38bfb8 
+Content-Type: application/json
+
+{
+"content": "nota 6 - actualizada x3",
+ "important": false
+}
+
+###
+
+//creamos un nuevo registro en nuestra base de datos 
+POST http://localhost:3001/api/notes 
+Content-Type: application/json
+
+{
+"content": "Mongo es increible x2", 
+"important": true
+}
