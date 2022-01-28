@@ -3,7 +3,11 @@ const { Schema, model } = require('mongoose')
 const userSchema = new Schema({
   username: String,
   name: String,
-  password: String
+  password: String,
+  notes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Note'
+  }]
 })
 
 userSchema.set('toJSON', {
@@ -18,5 +22,5 @@ userSchema.set('toJSON', {
 })
 
 // eslint-disable-next-line new-cap
-const User = new model('user', userSchema)
+const User = new model('User', userSchema)
 module.exports = User

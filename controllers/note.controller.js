@@ -3,26 +3,42 @@ const { isValidObjectId } = require('mongoose')
 const Note = require('../models/Note.models')
 
 const newNote = require('../models/Note.models')
+const User = require('../models/User.models')
 
 // show all notes
 notesRouter.get('/', (request, response) => {
-  newNote.find({}).then(note => {
-    response.json(note)
-  })
+  newNote.find({}).populate('user', { username: 1, name: 1 })
+    .then(note => response.json(note))
 })
 
 // add new note
-notesRouter.post('/', (req, res, next) => {
-  const { content, important, date } = req.body
+notesRouter.post('/', async (req, res, next) => {
+  const {
+    content,
+    important = false,
+    date = new Date(),
+    user
+  } = req.body
+
+  if (!content) {
+    return res.status(400).json({ error: 'requerid "content" field is missing' })
+  }
+
+  const userId = await User.findById(user)
 
   const newNote = new Note({
     content,
-    date: date || new Date(),
-    important: important || false
+    date,
+    important,
+    user: userId.id
   })
 
   newNote.save()
-    .then(() => res.json(newNote))
+    .then(() => {
+      userId.notes = userId.notes.concat(newNote._id)
+      userId.save()
+      res.json(newNote)
+    })
     .catch(err => next(err))
 })
 

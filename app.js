@@ -5,6 +5,7 @@ const express = require('express')
 const cors = require('cors')
 const userRouter = require('./controllers/users.controller')
 const notesRouter = require('./controllers/Note.controller')
+const loginRouter = require('./controllers/login.controller')
 // const noFound = require('./middlewares/noFound')
 
 // init
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRouter)
 app.use('/api/notes', notesRouter)
+app.use('/api/login', loginRouter)
 // app.use(noFound)
 
 // starting server

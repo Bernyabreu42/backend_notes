@@ -13,9 +13,9 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-    "username": "WBaut", 
-    "name": "Williams Bautista",
-    "password": "WwwBbb"
+    "username": "BrAnd", 
+    "name": "Brandom Daniels",
+    "password": "jSoles"
 }
 
 ###

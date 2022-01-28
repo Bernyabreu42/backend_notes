@@ -18,8 +18,8 @@ PUT http://localhost:3001/api/notes/61f2a30e0ce84a857d38bfb8
 Content-Type: application/json
 
 {
-"content": "nota 6 - actualizada x3",
- "important": false
+  "content": "nota 6 - actualizada x3",
+  "important": false
 }
 
 ###
@@ -29,6 +29,7 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-"content": "Mongo es increible x2", 
-"important": true
+  "content": "Nota de prueba x2", 
+  "important": false,
+  "user":"61f43d2499838b327b48627b"
 }

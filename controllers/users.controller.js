@@ -4,7 +4,7 @@ const User = require('../models/User.models')
 
 // get all users
 userRouter.get('/', (req, res, next) => {
-  User.find({})
+  User.find({}).populate('notes', { content: 1, date: 1 })
     .then(user => res.json(user))
     .catch(err => next(err))
 })
@@ -30,11 +30,12 @@ userRouter.post('/', async (req, res, next) => {
     name,
     password: bCryptPassword
   })
+  User.find({ name: name }).then(result => console.log(result))
 
-  newUser
-    .save()
-    .then(user => res.json(user))
-    .catch(err => next(err))
+  // newUser
+  //   .save()
+  //   .then(user => res.status(201).json(user))
+  //   .catch(err => next(err))
 })
 
 // update new user
