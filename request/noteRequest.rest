@@ -27,9 +27,10 @@ Content-Type: application/json
 //creamos un nuevo registro en nuestra base de datos 
 POST http://localhost:3001/api/notes 
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjc2OGMzMzc2YjNhMjU4YmIwODYxNCIsImVtYWlsIjoiam9zZUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Impvc2VHIiwiaWF0IjoxNjQzNjA0MTkxfQ.iI2OmDSVNWnCUVx-4pntZIH_6AOLZ6WHHheuKLid3A4
 
 {
-  "content": "Nota de prueba x2", 
+  "content": "Nota de prueba x3", 
   "important": false,
-  "user":"61f43d2499838b327b48627b"
+  "user":"61f6dd4db4112a89ccda4bcd"
 }

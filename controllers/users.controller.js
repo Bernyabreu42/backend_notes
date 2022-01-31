@@ -20,22 +20,28 @@ userRouter.get('/:id', (req, res, next) => {
 
 // create new User
 userRouter.post('/', async (req, res, next) => {
-  const { username, name, password } = req.body
+  const { email, username, name, password } = req.body
 
   // encryptation password
   const bCryptPassword = await bcrypt.hash(password, 10)
 
   const newUser = new User({
+    email,
     username,
     name,
     password: bCryptPassword
   })
-  User.find({ name: name }).then(result => console.log(result))
 
-  // newUser
-  //   .save()
-  //   .then(user => res.status(201).json(user))
-  //   .catch(err => next(err))
+  User.findOne({ email: email }, (_err, doc) => {
+    if (doc) {
+      res.json({ error: 'Este correo ya esta registrado' })
+    } else {
+      newUser
+        .save()
+        .then(user => res.status(201).json(user))
+        .catch(err => next(err))
+    }
+  })
 })
 
 // update new user

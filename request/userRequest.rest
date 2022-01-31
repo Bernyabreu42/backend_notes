@@ -13,9 +13,10 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-    "username": "BrAnd", 
-    "name": "Brandom Daniels",
-    "password": "jSoles"
+    "email":"jose@gmail.com",
+    "username": "joseG", 
+    "name": "jose Garmona",
+    "password": "jose.com"
 }
 
 ###
@@ -25,7 +26,7 @@ PUT  http://localhost:3001/api/users/61f3027d3bec400556f82ce4
 Content-Type: application/json
 
 {
-    "username": "BrueceLeee", 
-    "name": "Bruce Lee",
-    "password": "brucelee"
+    "username": "", 
+    "name": "",
+    "password": ""
 }

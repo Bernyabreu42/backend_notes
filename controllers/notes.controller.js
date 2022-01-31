@@ -1,6 +1,7 @@
 const notesRouter = require('express').Router()
 const { isValidObjectId } = require('mongoose')
 const Note = require('../models/Note.models')
+const jwt = require('jsonwebtoken')
 
 const newNote = require('../models/Note.models')
 const User = require('../models/User.models')
@@ -20,11 +21,24 @@ notesRouter.post('/', async (req, res, next) => {
     user
   } = req.body
 
-  if (!content) {
-    return res.status(400).json({ error: 'requerid "content" field is missing' })
+  const authorization = req.get('authorization')
+  let token = ''
+
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    token = authorization.substring(7)
+  }
+
+  const decodeToken = jwt.verify(token, process.env.SECRET)
+
+  if (!token || !decodeToken.id) {
+    return res.status(401).json({ error: 'token missing or invalid' })
   }
 
   const userId = await User.findById(user)
+
+  if (!content) {
+    return res.status(400).json({ error: 'requerid "content" field is missing' })
+  }
 
   const newNote = new Note({
     content,
@@ -47,7 +61,10 @@ notesRouter.get('/:id', (req, res, next) => {
   const id = req.params.id
 
   Note.findById(id)
-    .then(note => res.json(note))
+    .then(note => {
+      if (note === null) return res.json({ Error: 'Nota no encontrada' })
+      res.json(note)
+    })
     .catch(err => next(err))
 })
 
