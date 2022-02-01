@@ -13,10 +13,10 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-    "email":"jose@gmail.com",
-    "username": "joseG", 
-    "name": "jose Garmona",
-    "password": "jose.com"
+    "email":"Berny@gmail.com",
+    "username": "Berny", 
+    "name": "Berny Abreu",
+    "password": "Berny.com"
 }
 
 ###

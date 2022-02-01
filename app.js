@@ -6,6 +6,7 @@ const cors = require('cors')
 const userRouter = require('./controllers/users.controller')
 const notesRouter = require('./controllers/Notes.controller')
 const loginRouter = require('./controllers/login.controller')
+const handleError = require('./middlewares/handleError')
 
 // init
 const app = express()
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRouter)
 app.use('/api/notes', notesRouter)
 app.use('/api/login', loginRouter)
-
+app.use(handleError)
 // starting server
 const PORT = process.env.PORT || 3002
 app.listen(PORT, () => {

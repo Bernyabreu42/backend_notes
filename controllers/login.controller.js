@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken')
 loginRouter.post('/', async (req, res, next) => {
   const { email, password } = req.body
 
+  if (email === '' || password === '') return res.json({ Error: 'fill in all the fields' })
+
   const user = await User.findOne({ email })
 
   const passwordCorrect = user === null
@@ -24,7 +26,13 @@ loginRouter.post('/', async (req, res, next) => {
     username: user.username
   }
 
-  const token = jwt.sign(userToken, process.env.SECRET)
+  const token = jwt.sign(
+    userToken,
+    process.env.SECRET,
+    {
+      expiresIn: 60 * 60 * 24
+    }
+  )
 
   res.send({
     name: user.name,

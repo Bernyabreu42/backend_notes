@@ -3,15 +3,22 @@ const userRouter = require('express').Router()
 const User = require('../models/User.models')
 
 // get all users
-userRouter.get('/', (req, res, next) => {
+userRouter.get('/', async (req, res, next) => {
+  const consulta = await User.find({})
+  if (consulta.length === 0) return res.json({ message: 'no registered users' })
+
   User.find({}).populate('notes', { content: 1, date: 1 })
     .then(user => res.json(user))
     .catch(err => next(err))
 })
 
 // Find By Id
-userRouter.get('/:id', (req, res, next) => {
+userRouter.get('/:id', async (req, res, next) => {
   const id = req.params.id
+
+  const consulta = await User.findOne({ id })
+  if (!consulta) return res.json({ Error: 'user not valid' })
+
   User
     .findByIdAndUpdate(id)
     .then(user => res.json(user))
@@ -46,6 +53,9 @@ userRouter.post('/', async (req, res, next) => {
 
 // update new user
 userRouter.put('/:id', async (req, res, next) => {
+  const consulta = await User.find({})
+  if (consulta.length === 0) return res.json({ message: 'no registered users' })
+
   const id = req.params.id
   const { username, name, password } = req.body
 
@@ -57,6 +67,8 @@ userRouter.put('/:id', async (req, res, next) => {
     name,
     password: bCryptPassword
   }
+
+  if (updateUser.username === '' || updateUser.name === '') return res.json({ Error: 'missing fields to fill' })
 
   User.findByIdAndUpdate(id, updateUser, { new: true })
     .then(result => res.json({

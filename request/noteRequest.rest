@@ -4,21 +4,21 @@ GET http://localhost:3001/api/notes
 ###
 
 //solicitamos notas individuales segun id 
-GET http://localhost:3001/api/notes/61e87b0146fe6fa8ca8ae544
+GET http://localhost:3001/api/notes/61f93c93ff3d3d5ae0500afb
 
 ###
 
 //borramos notas segun id 
-DELETE http://localhost:3001/api/notes/asdasd5646546
+DELETE http://localhost:3001/api/notes/61f93c93ff3d3d5ae0500afb
 
 ###
 
 // actualizamos una nota segun id 
-PUT http://localhost:3001/api/notes/61f2a30e0ce84a857d38bfb8 
+PUT http://localhost:3001/api/notes/61f99a63b1d9e42d55cdc230
 Content-Type: application/json
 
 {
-  "content": "nota 6 - actualizada x3",
+  "content": "fourth note with token update",
   "important": false
 }
 
@@ -27,10 +27,9 @@ Content-Type: application/json
 //creamos un nuevo registro en nuestra base de datos 
 POST http://localhost:3001/api/notes 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjc2OGMzMzc2YjNhMjU4YmIwODYxNCIsImVtYWlsIjoiam9zZUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Impvc2VHIiwiaWF0IjoxNjQzNjA0MTkxfQ.iI2OmDSVNWnCUVx-4pntZIH_6AOLZ6WHHheuKLid3A4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjkzODM4MzlmYmNjNjdkYzBlOGRiOSIsImVtYWlsIjoiQmVybnlAZ21haWwuY29tIiwidXNlcm5hbWUiOiJCZXJueSIsImlhdCI6MTY0MzczMjcwMiwiZXhwIjoxNjQzODE5MTAyfQ.tDbzAZMVmPreNqlztr7y_5fqNIlswX7rsAc1YRcW6pY
 
 {
-  "content": "Nota de prueba x3", 
-  "important": false,
-  "user":"61f6dd4db4112a89ccda4bcd"
+  "content": "sixth note with token", 
+  "important": false
 }

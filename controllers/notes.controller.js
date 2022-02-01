@@ -1,87 +1,92 @@
 const notesRouter = require('express').Router()
-const { isValidObjectId } = require('mongoose')
+const validateToken = require('../middlewares/validateToken')
 const Note = require('../models/Note.models')
-const jwt = require('jsonwebtoken')
 
-const newNote = require('../models/Note.models')
 const User = require('../models/User.models')
 
-// show all notes
-notesRouter.get('/', (request, response) => {
-  newNote.find({}).populate('user', { username: 1, name: 1 })
+// show all notes____________________________________
+notesRouter.get('/', async (request, response) => {
+  const consulta = await Note.find({})
+  if (consulta.length === 0) return response.json({ message: 'No Registered Notes' })
+
+  Note.find({}).populate('user', { username: 1, name: 1 })
     .then(note => response.json(note))
 })
 
-// add new note
-notesRouter.post('/', async (req, res, next) => {
+// add new note____________________________________
+notesRouter.post('/', validateToken, async (req, res, next) => {
   const {
     content,
     important = false,
-    date = new Date(),
-    user
+    date = new Date()
   } = req.body
 
-  const authorization = req.get('authorization')
-  let token = ''
+  const { userId } = req
 
-  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-    token = authorization.substring(7)
-  }
-
-  const decodeToken = jwt.verify(token, process.env.SECRET)
-
-  if (!token || !decodeToken.id) {
-    return res.status(401).json({ error: 'token missing or invalid' })
-  }
-
-  const userId = await User.findById(user)
+  const user = await User.findById(userId)
 
   if (!content) {
-    return res.status(400).json({ error: 'requerid "content" field is missing' })
+    return res.status(400).json({ error: '"content" field is missing' })
   }
 
   const newNote = new Note({
     content,
     date,
     important,
-    user: userId.id
+    user: user.id
   })
 
-  newNote.save()
-    .then(() => {
-      userId.notes = userId.notes.concat(newNote._id)
-      userId.save()
-      res.json(newNote)
-    })
-    .catch(err => next(err))
+  try {
+    const saveNote = await newNote.save()
+    user.notes = user.notes.concat(saveNote._id)
+    user.save()
+    res.json(saveNote)
+  } catch (error) {
+    next(error)
+  }
 })
 
-// search by Id
-notesRouter.get('/:id', (req, res, next) => {
+// search by Id____________________________________
+notesRouter.get('/:id', validateToken, async (req, res, next) => {
   const id = req.params.id
 
-  Note.findById(id)
-    .then(note => {
-      if (note === null) return res.json({ Error: 'Nota no encontrada' })
-      res.json(note)
-    })
-    .catch(err => next(err))
+  Note.findOne({ _id: id }, (_err, doc) => {
+    if (doc === null) {
+      return res.json({ Error: 'invalid id' })
+    }
+  })
+
+  try {
+    const result = await Note.findById(id)
+    res.json(result)
+  } catch (error) {
+    res.json({ ...error, msg: 'invalid id' })
+  }
 })
 
-// Delete by Id
-notesRouter.delete('/:id', (req, res, next) => {
+// Delete by Id____________________________________
+notesRouter.delete('/:id', validateToken, async (req, res, next) => {
   const id = req.params.id
-  console.log(!isValidObjectId(id))
 
-  if (!isValidObjectId(id)) throw new Error('Falta el id')
+  Note.findOne({ _id: id }, (_err, doc) => {
+    if (doc === null) {
+      return res.json({ Error: 'invalid id' })
+    }
+  })
 
-  Note.findByIdAndRemove(id)
-    .then(() => res.status(204).end())
-    .catch(err => next(err.mesasge))
+  try {
+    await Note.findByIdAndRemove(id)
+    res.status(204)
+  } catch (error) {
+    res.json({ ...error, msg: 'invalid id' })
+  }
 })
 
-// update by Id
-notesRouter.put('/:id', (req, res, next) => {
+// update by Id____________________________________
+notesRouter.put('/:id', async (req, res, next) => {
+  const consulta = await Note.find({})
+  if (consulta.length === 0) return res.json({ message: 'No Registered Notes' })
+
   const id = req.params.id
   const { content, important } = req.body
 
@@ -90,12 +95,17 @@ notesRouter.put('/:id', (req, res, next) => {
     important: important || false
   })
 
-  Note.findByIdAndUpdate(id, newNote, { new: true })
-    .then(result => res.json({
+  if (newNote.content === '') return res.json({ Error: 'missing fields to fill' })
+
+  try {
+    const result = await Note.findByIdAndUpdate(id, newNote, { new: true })
+    res.json({
       message: 'Update successful!',
       result
     }).status(200)
-    ).catch(err => next(err.message))
+  } catch (error) {
+    res.json({ ...error, msg: 'invalid id' })
+  }
 })
 
 module.exports = notesRouter
