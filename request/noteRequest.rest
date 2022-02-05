@@ -27,9 +27,10 @@ Content-Type: application/json
 //creamos un nuevo registro en nuestra base de datos 
 POST http://localhost:3001/api/notes 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjkzODM4MzlmYmNjNjdkYzBlOGRiOSIsImVtYWlsIjoiQmVybnlAZ21haWwuY29tIiwidXNlcm5hbWUiOiJCZXJueSIsImlhdCI6MTY0MzczMjcwMiwiZXhwIjoxNjQzODE5MTAyfQ.tDbzAZMVmPreNqlztr7y_5fqNIlswX7rsAc1YRcW6pY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmUzYzAyNmNkYzk5YTY1YWQ5MmMwMyIsImVtYWlsIjoiV2lsbHlAZ21haWwuY29tIiwidXNlcm5hbWUiOiJXaWxseSIsImlhdCI6MTY0NDA1Mjc0MywiZXhwIjoxNjQ0MTM5MTQzfQ.N-fwMrJLJssDS9vZKaQfwwvih4-12Z2TlFbEq1oHPeo
 
 {
-  "content": "sixth note with token", 
-  "important": false
+  "title":"usuario willy",
+  "content": "veamos si funciona", 
+  "important": true
 }

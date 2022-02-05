@@ -16,6 +16,7 @@ notesRouter.get('/', async (request, response) => {
 // add new note____________________________________
 notesRouter.post('/', validateToken, async (req, res, next) => {
   const {
+    title,
     content,
     important = false,
     date = new Date()
@@ -30,6 +31,7 @@ notesRouter.post('/', validateToken, async (req, res, next) => {
   }
 
   const newNote = new Note({
+    title,
     content,
     date,
     important,
@@ -88,9 +90,10 @@ notesRouter.put('/:id', async (req, res, next) => {
   if (consulta.length === 0) return res.json({ message: 'No Registered Notes' })
 
   const id = req.params.id
-  const { content, important } = req.body
+  const { title, content, important } = req.body
 
   const newNote = ({
+    title,
     content,
     important: important || false
   })

@@ -7,7 +7,7 @@ userRouter.get('/', async (req, res, next) => {
   const consulta = await User.find({})
   if (consulta.length === 0) return res.json({ message: 'no registered users' })
 
-  User.find({}).populate('notes', { content: 1, date: 1 })
+  User.find({}).populate('notes', { title: 1, content: 1, date: 1 })
     .then(user => res.json(user))
     .catch(err => next(err))
 })
