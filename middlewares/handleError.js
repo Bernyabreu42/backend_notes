@@ -1,6 +1,10 @@
+const mongoose = require('mongoose')
+
 const ERROR_HANDLERS = {
   CastError: res =>
     res.status(400).send({ error: 'id used is malformed' }),
+
+  MongoNotConnectedError: () => mongoose.connect(process.env.MONGODB_URI),
 
   defaultError: res => res.status(500).end()
 }

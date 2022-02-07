@@ -7,7 +7,7 @@ userRouter.get('/', async (req, res, next) => {
   const consulta = await User.find({})
   if (consulta.length === 0) return res.json({ message: 'no registered users' })
 
-  User.find({}).populate('notes', { title: 1, content: 1, date: 1 })
+  User.find({}).populate('notes', { title: 1, content: 1, date: 1, color: 1 })
     .then(user => res.json(user))
     .catch(err => next(err))
 })
@@ -33,7 +33,7 @@ userRouter.post('/', async (req, res, next) => {
   const bCryptPassword = await bcrypt.hash(password, 10)
 
   const newUser = new User({
-    email,
+    email: email.toLowerCase(),
     username,
     name,
     password: bCryptPassword

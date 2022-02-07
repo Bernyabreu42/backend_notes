@@ -23,7 +23,7 @@ loginRouter.post('/', async (req, res, next) => {
 
     const userToken = {
       id: user._id,
-      email: user.email,
+      email: user.email.toLowerCase(),
       username: user.username
     }
 
@@ -37,7 +37,7 @@ loginRouter.post('/', async (req, res, next) => {
 
     res.send({
       name: user.name,
-      email: user.email,
+      email: user.email.toLowerCase(),
       token
     }).end()
   } catch (error) {

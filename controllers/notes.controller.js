@@ -19,6 +19,7 @@ notesRouter.post('/', validateToken, async (req, res, next) => {
     title,
     content,
     important = false,
+    color = '#fff',
     date = new Date()
   } = req.body
 
@@ -35,8 +36,11 @@ notesRouter.post('/', validateToken, async (req, res, next) => {
     content,
     date,
     important,
+    color,
     user: user.id
   })
+
+  console.log(newNote)
 
   try {
     const saveNote = await newNote.save()
@@ -90,12 +94,13 @@ notesRouter.put('/:id', async (req, res, next) => {
   if (consulta.length === 0) return res.json({ message: 'No Registered Notes' })
 
   const id = req.params.id
-  const { title, content, important } = req.body
+  const { title, content, important, color } = req.body
 
   const newNote = ({
     title,
     content,
-    important: important || false
+    important: important || false,
+    color: color || '#fff'
   })
 
   if (newNote.content === '') return res.json({ Error: 'missing fields to fill' })
